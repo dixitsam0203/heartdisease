@@ -13,4 +13,4 @@ model.fit(X_train, y_train)
 # Save the model inside the heartpredict folder
 joblib.dump(model, "heartdisease/heart_disease_model.pkl")
 
-print("✅ Model saved successfully at heartdisease/heart_disease_model.pkl")
+print("Model saved successfully at heartdisease/heart_disease_model.pkl")

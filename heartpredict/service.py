@@ -10,17 +10,17 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.exceptions import NotFittedError
 
-# ✅ Load the trained model globally
+# Load the trained model globally
 MODEL_PATH = os.path.join(settings.BASE_DIR, 'heartpredict', 'heart_disease_model.pkl')
 model = joblib.load(MODEL_PATH)
 
-# ✅ Load a pre-trained scaler (should be fitted on training data)
+# Load a pre-trained scaler (should be fitted on training data)
 SCALER_PATH = os.path.join(settings.BASE_DIR, 'heartpredict', 'scaler.pkl')
 
 if os.path.exists(SCALER_PATH):
     scaler = joblib.load(SCALER_PATH)
 else:
-    print("⚠️ Warning: Scaler not found! Ensure the data is scaled during training.")
+    print("⚠ Warning: Scaler not found! Ensure the data is scaled during training.")
     scaler = None  # Do not fit on single test input
 
 def generate_plot_image(fig):
@@ -40,21 +40,21 @@ class Prediction:
         """
         data = np.array(data).reshape(1, -1)
 
-        # ✅ Ensure the scaler is available before transforming
+        # nsure the scaler is available before transforming
         if scaler:
             try:
                 data_scaled = scaler.transform(data)
             except NotFittedError:
-                print("⚠️ Warning: Scaler is not fitted! Ensure training data was scaled.")
+                print("⚠Warning: Scaler is not fitted! Ensure training data was scaled.")
                 data_scaled = data  # Use raw input if scaler is missing
         else:
             data_scaled = data  # Use raw input if scaler was not found
 
-        # ✅ Predict using the trained model
+        # Predict using the trained model
         prediction = model.predict(data_scaled)[0]
         prediction_text = "Heart Disease Detected" if prediction == 1 else "No Heart Disease Detected"
 
-        # ✅ Generate Confusion Matrix only if actual_label is provided
+        # Generate Confusion Matrix only if actual_label is provided
         if actual_label is not None:
             y_true = np.array([actual_label])  # Ground truth
             y_pred = np.array([prediction])    # Model prediction
@@ -63,7 +63,7 @@ class Prediction:
             # If no actual label is given, create a balanced confusion matrix
             cm = np.array([[1, 1], [1, 1]])
 
-        # ✅ Plot Confusion Matrix
+        # Plot Confusion Matrix
         fig, ax = plt.subplots(figsize=(4, 4))
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                     xticklabels=['No Disease', 'Disease'],

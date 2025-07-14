@@ -27,4 +27,4 @@ os.makedirs(os.path.dirname(model_path), exist_ok=True)
 # Save the trained model
 joblib.dump(model, model_path)
 
-print(f"✅ Model saved successfully at {model_path}")
+print(f"Model saved successfully at {model_path}")
